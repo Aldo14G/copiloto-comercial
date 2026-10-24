@@ -1,0 +1,2 @@
+streamlit>=1.40
+# opcional: anthropic (si se usa ANTHROPIC_API_KEY en lugar de Claude Code CLI)

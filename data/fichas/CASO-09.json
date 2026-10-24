@@ -1,0 +1,131 @@
+{
+  "case_id": "CASO-09",
+  "empresa": "Agencia Brava",
+  "industria": "Marketing",
+  "empleados": 30,
+  "catalogo": "14a5451ca84f",
+  "creado": "2026-10-24T15:10:54",
+  "actualizado": "2026-10-24T15:11:43",
+  "transcript": [
+    {
+      "rol": "cliente",
+      "texto": "Trabajamos con archivos muy pesados entre todo el equipo y queremos empezar a usar Copilot.",
+      "ts": "2026-10-24T15:11:17"
+    },
+    {
+      "rol": "cliente",
+      "texto": "Tenemos Microsoft 365 Business Standard para los 30. Copilot lo usarían unas 12 personas de creativo y cuentas; los archivos de video pesan como 2 TB en total.",
+      "ts": "2026-10-24T15:11:43"
+    }
+  ],
+  "hechos": [
+    {
+      "clave": "empleados",
+      "valor": "30",
+      "cita": "Tenemos Microsoft 365 Business Standard para los 30",
+      "verificado": true
+    },
+    {
+      "clave": "usuarios_m365",
+      "valor": "30",
+      "cita": "Tenemos Microsoft 365 Business Standard para los 30",
+      "verificado": true
+    },
+    {
+      "clave": "licencia_m365_actual",
+      "valor": "Microsoft 365 Business Standard",
+      "cita": "Tenemos Microsoft 365 Business Standard para los 30",
+      "verificado": true
+    },
+    {
+      "clave": "usuarios_copilot",
+      "valor": "12",
+      "cita": "Copilot lo usarían unas 12 personas de creativo y cuentas",
+      "verificado": true
+    },
+    {
+      "clave": "tb_archivos_video",
+      "valor": "2",
+      "cita": "los archivos de video pesan como 2 TB en total",
+      "verificado": true
+    },
+    {
+      "clave": "uso_archivos",
+      "valor": "Archivos muy pesados compartidos entre todo el equipo",
+      "cita": "Trabajamos con archivos muy pesados entre todo el equipo",
+      "verificado": true
+    },
+    {
+      "clave": "interes_copilot",
+      "valor": "Quiere empezar a usar Copilot",
+      "cita": "queremos empezar a usar Copilot",
+      "verificado": true
+    }
+  ],
+  "servicios_existentes": [
+    {
+      "sku": "SIM-M365-02",
+      "cita": "Tenemos Microsoft 365 Business Standard para los 30",
+      "verificado": true
+    }
+  ],
+  "candidatos": [
+    {
+      "sku": "SIM-M365-05",
+      "cantidad": 12,
+      "justificacion": "Quieren usar IA en Word, Excel, PowerPoint, Outlook y Teams, y 12 personas de creativo y cuentas la usarían. Ya tienen Business Standard, que es la licencia base que Copilot necesita.",
+      "hecho_cantidad": "usuarios_copilot"
+    },
+    {
+      "sku": "SIM-BK-02",
+      "cantidad": 30,
+      "justificacion": "Si los archivos pesados viven en OneDrive o SharePoint, conviene respaldarlos para poder recuperar una carpeta borrada. Falta confirmar dónde están y si ya tienen respaldo.",
+      "hecho_cantidad": "usuarios_m365"
+    }
+  ],
+  "preguntas_pendientes": [
+    {
+      "pregunta": "¿Dónde guardan y comparten hoy esos 2 TB de video (OneDrive/SharePoint, servidor, discos externos u otra nube) y qué es lo que les falla (lentitud, falta de espacio, versiones perdidas)?",
+      "motivo": "Define si el problema es almacenamiento y colaboración dentro de Microsoft 365, respaldo, o algo que requiera otra solución.",
+      "prioridad": 1
+    },
+    {
+      "pregunta": "¿Qué tareas concretas quieren acelerar con Copilot (propuestas, presentaciones, correos, análisis) y quién decide la compra?",
+      "motivo": "Confirma el caso de uso de las 12 licencias y avanza hacia el cierre.",
+      "prioridad": 2
+    },
+    {
+      "pregunta": "¿Tienen respaldo de esos archivos y de la información de Microsoft 365 (correo, OneDrive, SharePoint)? ¿Han perdido algo alguna vez?",
+      "motivo": "Confirma si aplica Backup de Microsoft 365 u otro respaldo.",
+      "prioridad": 3
+    },
+    {
+      "pregunta": "¿Los archivos y carpetas compartidas tienen permisos ordenados por equipo o cliente, o cualquiera puede ver todo?",
+      "motivo": "Copilot muestra lo que cada usuario puede ver; permisos desordenados serían un riesgo y podrían requerir revisión previa.",
+      "prioridad": 4
+    }
+  ],
+  "escalamientos": [],
+  "contradicciones": [],
+  "guion_vendedor": "Perfecto, con Business Standard ya tienen la base para Copilot, así que podemos empezar con las 12 personas de creativo y cuentas. Antes de proponerles algo, quiero entender bien lo de los archivos de video, porque ahí suele estar el mayor dolor del día a día. ¿Dónde guardan y comparten hoy esos 2 TB y qué es lo que más les estorba: la lentitud, el espacio o perder versiones?",
+  "resumen_necesidad": "Agencia de marketing de 30 personas que ya tiene Microsoft 365 Business Standard y quiere dar Copilot a unas 12 personas de creativo y cuentas. Además comparten archivos de video muy pesados (unos 2 TB en total).",
+  "tipo_caso": "estándar",
+  "alertas_validacion": [],
+  "metricas": [
+    {
+      "tokens_in": 49262,
+      "tokens_out": 1462,
+      "costo_usd": 0.211664,
+      "segundos": 22.7,
+      "turno": 1
+    },
+    {
+      "tokens_in": 56580,
+      "tokens_out": 2182,
+      "costo_usd": 0.19411319999999999,
+      "segundos": 26.2,
+      "turno": 2
+    }
+  ],
+  "plazo": 12
+}

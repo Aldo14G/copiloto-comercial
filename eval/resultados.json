@@ -1,0 +1,292 @@
+{
+  "resumen": {
+    "casos": 10,
+    "skus_inventados_que_llegaron_al_cotizador": 0,
+    "skus_inventados_por_claude_filtrados": 0,
+    "hechos_sin_cita_filtrados": 8,
+    "hechos_totales": 32,
+    "escalamientos_explicitos_detectados": "4/4",
+    "casos_con_escalamiento": 8,
+    "latencia_media_s": 36.8
+  },
+  "casos": [
+    {
+      "caso": "CASO-01",
+      "etiqueta": "estándar",
+      "tipo_claude": "estándar",
+      "skus_inventados": 0,
+      "hechos": 3,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-M365-03",
+        "SIM-M365-06",
+        "SIM-BK-02",
+        "SIM-BK-04",
+        "SIM-M365-07"
+      ],
+      "escalamientos": [
+        "ESC-04"
+      ],
+      "esperados": [],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos"
+      ],
+      "tokens_in": 55720,
+      "tokens_out": 1483,
+      "costo_usd": 0.1836832,
+      "segundos": 36.7
+    },
+    {
+      "caso": "CASO-02",
+      "etiqueta": "mixto",
+      "tipo_claude": "por definir",
+      "skus_inventados": 0,
+      "hechos": 3,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-DC-01",
+        "SIM-DC-08",
+        "SIM-BK-01",
+        "SIM-DC-04"
+      ],
+      "escalamientos": [
+        "ESC-05",
+        "ESC-07",
+        "ESC-08"
+      ],
+      "esperados": [],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos"
+      ],
+      "tokens_in": 55708,
+      "tokens_out": 1445,
+      "costo_usd": 0.1832552,
+      "segundos": 36.0
+    },
+    {
+      "caso": "CASO-03",
+      "etiqueta": "mixto",
+      "tipo_claude": "mixto",
+      "skus_inventados": 0,
+      "hechos": 3,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-AWS-04",
+        "SIM-AWS-01"
+      ],
+      "escalamientos": [
+        "ESC-04"
+      ],
+      "esperados": [
+        "ESC-04"
+      ],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos",
+        "borrador_calculable",
+        "requiere_arquitecto"
+      ],
+      "tokens_in": 55705,
+      "tokens_out": 1743,
+      "costo_usd": 0.1862232,
+      "segundos": 41.6
+    },
+    {
+      "caso": "CASO-04",
+      "etiqueta": "a la medida",
+      "tipo_claude": "por definir",
+      "skus_inventados": 0,
+      "hechos": 2,
+      "hechos_sin_cita": 0,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-M365-04",
+        "SIM-AZ-02",
+        "SIM-AZ-03"
+      ],
+      "escalamientos": [
+        "ESC-02",
+        "ESC-06"
+      ],
+      "esperados": [],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos"
+      ],
+      "tokens_in": 55701,
+      "tokens_out": 2065,
+      "costo_usd": 0.18942720000000002,
+      "segundos": 47.9
+    },
+    {
+      "caso": "CASO-05",
+      "etiqueta": "estándar",
+      "tipo_claude": "estándar",
+      "skus_inventados": 0,
+      "hechos": 5,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-IA-01"
+      ],
+      "escalamientos": [
+        "ESC-05"
+      ],
+      "esperados": [],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos",
+        "borrador_calculable"
+      ],
+      "tokens_in": 55704,
+      "tokens_out": 1283,
+      "costo_usd": 0.18161919999999998,
+      "segundos": 35.7
+    },
+    {
+      "caso": "CASO-06",
+      "etiqueta": "a la medida",
+      "tipo_claude": "a la medida",
+      "skus_inventados": 0,
+      "hechos": 3,
+      "hechos_sin_cita": 0,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-OCI-03",
+        "SIM-OCI-02"
+      ],
+      "escalamientos": [
+        "ESC-04",
+        "ESC-05",
+        "ESC-07",
+        "ESC-08"
+      ],
+      "esperados": [
+        "ESC-08"
+      ],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos",
+        "requiere_arquitecto"
+      ],
+      "tokens_in": 55696,
+      "tokens_out": 1469,
+      "costo_usd": 0.18344719999999998,
+      "segundos": 37.1
+    },
+    {
+      "caso": "CASO-07",
+      "etiqueta": "estándar",
+      "tipo_claude": "estándar",
+      "skus_inventados": 0,
+      "hechos": 2,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-BK-01",
+        "SIM-BK-05"
+      ],
+      "escalamientos": [],
+      "esperados": [],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos"
+      ],
+      "tokens_in": 55705,
+      "tokens_out": 1023,
+      "costo_usd": 0.1790232,
+      "segundos": 30.9
+    },
+    {
+      "caso": "CASO-08",
+      "etiqueta": "a la medida",
+      "tipo_claude": "mixto",
+      "skus_inventados": 0,
+      "hechos": 4,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-AZ-06",
+        "SIM-DC-07",
+        "SIM-IA-02"
+      ],
+      "escalamientos": [
+        "ESC-01",
+        "ESC-06"
+      ],
+      "esperados": [
+        "ESC-06"
+      ],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos",
+        "requiere_arquitecto"
+      ],
+      "tokens_in": 55726,
+      "tokens_out": 2398,
+      "costo_usd": 0.1928572,
+      "segundos": 40.2
+    },
+    {
+      "caso": "CASO-09",
+      "etiqueta": "estándar",
+      "tipo_claude": "estándar",
+      "skus_inventados": 0,
+      "hechos": 3,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-M365-05",
+        "SIM-M365-03"
+      ],
+      "escalamientos": [],
+      "esperados": [],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos"
+      ],
+      "tokens_in": 55694,
+      "tokens_out": 1111,
+      "costo_usd": 0.1359452,
+      "segundos": 31.2
+    },
+    {
+      "caso": "CASO-10",
+      "etiqueta": "a la medida",
+      "tipo_claude": "a la medida",
+      "skus_inventados": 0,
+      "hechos": 4,
+      "hechos_sin_cita": 1,
+      "preguntas": 4,
+      "candidatos": [
+        "SIM-DC-09",
+        "SIM-DC-05",
+        "SIM-DC-02",
+        "SIM-BK-01"
+      ],
+      "escalamientos": [
+        "ESC-01",
+        "ESC-04",
+        "ESC-05",
+        "ESC-07"
+      ],
+      "esperados": [
+        "ESC-04"
+      ],
+      "esperados_detectados": true,
+      "estados": [
+        "faltan_datos",
+        "requiere_arquitecto"
+      ],
+      "tokens_in": 55702,
+      "tokens_out": 1528,
+      "costo_usd": 0.1840612,
+      "segundos": 31.0
+    }
+  ]
+}

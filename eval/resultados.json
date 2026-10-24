@@ -3,11 +3,11 @@
     "casos": 10,
     "skus_inventados_que_llegaron_al_cotizador": 0,
     "skus_inventados_por_claude_filtrados": 0,
-    "hechos_sin_cita_filtrados": 8,
-    "hechos_totales": 32,
+    "hechos_sin_cita_filtrados": 7,
+    "hechos_totales": 33,
     "escalamientos_explicitos_detectados": "4/4",
-    "casos_con_escalamiento": 8,
-    "latencia_media_s": 36.8
+    "casos_con_escalamiento": 4,
+    "latencia_media_s": 39.5
   },
   "casos": [
     {
@@ -20,12 +20,13 @@
       "preguntas": 4,
       "candidatos": [
         "SIM-M365-03",
-        "SIM-M365-06",
         "SIM-BK-02",
-        "SIM-BK-04",
-        "SIM-M365-07"
+        "SIM-M365-06",
+        "SIM-M365-07",
+        "SIM-BK-04"
       ],
-      "escalamientos": [
+      "escalamientos": [],
+      "posibles": [
         "ESC-04"
       ],
       "esperados": [],
@@ -33,47 +34,43 @@
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55720,
-      "tokens_out": 1483,
-      "costo_usd": 0.1836832,
-      "segundos": 36.7
+      "tokens_in": 55479,
+      "tokens_out": 2409,
+      "costo_usd": 0.1479638,
+      "segundos": 49.1
     },
     {
       "caso": "CASO-02",
       "etiqueta": "mixto",
-      "tipo_claude": "por definir",
+      "tipo_claude": "estándar",
       "skus_inventados": 0,
-      "hechos": 3,
+      "hechos": 4,
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
         "SIM-DC-01",
         "SIM-DC-08",
-        "SIM-BK-01",
-        "SIM-DC-04"
+        "SIM-BK-01"
       ],
-      "escalamientos": [
-        "ESC-05",
-        "ESC-07",
-        "ESC-08"
-      ],
+      "escalamientos": [],
+      "posibles": [],
       "esperados": [],
       "esperados_detectados": true,
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55708,
-      "tokens_out": 1445,
-      "costo_usd": 0.1832552,
-      "segundos": 36.0
+      "tokens_in": 55467,
+      "tokens_out": 1362,
+      "costo_usd": 0.13749260000000002,
+      "segundos": 44.5
     },
     {
       "caso": "CASO-03",
       "etiqueta": "mixto",
       "tipo_claude": "mixto",
       "skus_inventados": 0,
-      "hechos": 3,
-      "hechos_sin_cita": 1,
+      "hechos": 2,
+      "hechos_sin_cita": 0,
       "preguntas": 4,
       "candidatos": [
         "SIM-AWS-04",
@@ -82,6 +79,7 @@
       "escalamientos": [
         "ESC-04"
       ],
+      "posibles": [],
       "esperados": [
         "ESC-04"
       ],
@@ -91,10 +89,10 @@
         "borrador_calculable",
         "requiere_arquitecto"
       ],
-      "tokens_in": 55705,
-      "tokens_out": 1743,
-      "costo_usd": 0.1862232,
-      "segundos": 41.6
+      "tokens_in": 55464,
+      "tokens_out": 1109,
+      "costo_usd": 0.1349623,
+      "segundos": 44.5
     },
     {
       "caso": "CASO-04",
@@ -109,19 +107,19 @@
         "SIM-AZ-02",
         "SIM-AZ-03"
       ],
-      "escalamientos": [
-        "ESC-02",
-        "ESC-06"
+      "escalamientos": [],
+      "posibles": [
+        "ESC-02"
       ],
       "esperados": [],
       "esperados_detectados": true,
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55701,
-      "tokens_out": 2065,
-      "costo_usd": 0.18942720000000002,
-      "segundos": 47.9
+      "tokens_in": 55460,
+      "tokens_out": 1949,
+      "costo_usd": 0.14336190000000001,
+      "segundos": 44.6
     },
     {
       "caso": "CASO-05",
@@ -134,7 +132,8 @@
       "candidatos": [
         "SIM-IA-01"
       ],
-      "escalamientos": [
+      "escalamientos": [],
+      "posibles": [
         "ESC-05"
       ],
       "esperados": [],
@@ -143,28 +142,31 @@
         "faltan_datos",
         "borrador_calculable"
       ],
-      "tokens_in": 55704,
-      "tokens_out": 1283,
-      "costo_usd": 0.18161919999999998,
-      "segundos": 35.7
+      "tokens_in": 55463,
+      "tokens_out": 1658,
+      "costo_usd": 0.1404522,
+      "segundos": 44.6
     },
     {
       "caso": "CASO-06",
       "etiqueta": "a la medida",
       "tipo_claude": "a la medida",
       "skus_inventados": 0,
-      "hechos": 3,
-      "hechos_sin_cita": 0,
+      "hechos": 4,
+      "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
         "SIM-OCI-03",
         "SIM-OCI-02"
       ],
       "escalamientos": [
+        "ESC-08"
+      ],
+      "posibles": [
         "ESC-04",
         "ESC-05",
-        "ESC-07",
-        "ESC-08"
+        "ESC-06",
+        "ESC-07"
       ],
       "esperados": [
         "ESC-08"
@@ -175,9 +177,9 @@
         "requiere_arquitecto"
       ],
       "tokens_in": 55696,
-      "tokens_out": 1469,
-      "costo_usd": 0.18344719999999998,
-      "segundos": 37.1
+      "tokens_out": 1667,
+      "costo_usd": 0.022243400000000003,
+      "segundos": 41.1
     },
     {
       "caso": "CASO-07",
@@ -185,22 +187,23 @@
       "tipo_claude": "estándar",
       "skus_inventados": 0,
       "hechos": 2,
-      "hechos_sin_cita": 1,
+      "hechos_sin_cita": 0,
       "preguntas": 4,
       "candidatos": [
         "SIM-BK-01",
         "SIM-BK-05"
       ],
       "escalamientos": [],
+      "posibles": [],
       "esperados": [],
       "esperados_detectados": true,
       "estados": [
         "faltan_datos"
       ],
       "tokens_in": 55705,
-      "tokens_out": 1023,
-      "costo_usd": 0.1790232,
-      "segundos": 30.9
+      "tokens_out": 1102,
+      "costo_usd": 0.0165943,
+      "segundos": 27.9
     },
     {
       "caso": "CASO-08",
@@ -211,13 +214,16 @@
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
-        "SIM-AZ-06",
         "SIM-DC-07",
+        "SIM-AZ-06",
         "SIM-IA-02"
       ],
       "escalamientos": [
         "ESC-01",
         "ESC-06"
+      ],
+      "posibles": [
+        "ESC-07"
       ],
       "esperados": [
         "ESC-06"
@@ -228,9 +234,9 @@
         "requiere_arquitecto"
       ],
       "tokens_in": 55726,
-      "tokens_out": 2398,
-      "costo_usd": 0.1928572,
-      "segundos": 40.2
+      "tokens_out": 2203,
+      "costo_usd": 0.027606400000000003,
+      "segundos": 35.3
     },
     {
       "caso": "CASO-09",
@@ -241,19 +247,19 @@
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
-        "SIM-M365-05",
-        "SIM-M365-03"
+        "SIM-M365-05"
       ],
       "escalamientos": [],
+      "posibles": [],
       "esperados": [],
       "esperados_detectados": true,
       "estados": [
         "faltan_datos"
       ],
       "tokens_in": 55694,
-      "tokens_out": 1111,
-      "costo_usd": 0.1359452,
-      "segundos": 31.2
+      "tokens_out": 1518,
+      "costo_usd": 0.0207532,
+      "segundos": 32.6
     },
     {
       "caso": "CASO-10",
@@ -264,17 +270,13 @@
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
-        "SIM-DC-09",
-        "SIM-DC-05",
-        "SIM-DC-02",
-        "SIM-BK-01"
+        "SIM-DC-09"
       ],
       "escalamientos": [
         "ESC-01",
-        "ESC-04",
-        "ESC-05",
-        "ESC-07"
+        "ESC-04"
       ],
+      "posibles": [],
       "esperados": [
         "ESC-04"
       ],
@@ -284,9 +286,9 @@
         "requiere_arquitecto"
       ],
       "tokens_in": 55702,
-      "tokens_out": 1528,
-      "costo_usd": 0.1840612,
-      "segundos": 31.0
+      "tokens_out": 1296,
+      "costo_usd": 0.018534000000000002,
+      "segundos": 30.7
     }
   ]
 }

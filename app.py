@@ -33,7 +33,7 @@ with st.sidebar:
         st.session_state.ficha = f = F.nueva(case_id)
         F.guardar(f)
         st.rerun()
-    modelo = st.radio("Modelo Claude", ["sonnet", "haiku", "opus"], horizontal=True)
+    modelo = st.radio("Modelo Claude", ["sonnet", "opus", "haiku"], horizontal=True)
     claude_engine.MODEL = os.environ.get("COPILOTO_MODEL", modelo)
     f["plazo"] = st.radio("Plazo (meses)", [12, 24, 36], index=[12, 24, 36].index(f.get("plazo", 12)), horizontal=True)
     if f["metricas"]:

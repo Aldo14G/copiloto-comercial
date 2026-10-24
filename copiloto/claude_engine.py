@@ -55,7 +55,9 @@ def _call_cli(prompt):
         raise RuntimeError("No se encontró Claude Code CLI ni ANTHROPIC_API_KEY.")
     cmd = [exe, "-p", "--output-format", "json", "--model", MODEL, "--system-prompt", SYSTEM,
            "--tools", "", "--strict-mcp-config", "--setting-sources", "", "--no-session-persistence"]
-    r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=180)
+    # Sin thinking: la tarea es extracción estructurada y la latencia importa en la reunión
+    env = dict(os.environ, MAX_THINKING_TOKENS=os.environ.get("COPILOTO_THINKING", "0"))
+    r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=180, env=env)
     if r.returncode != 0:
         raise RuntimeError(f"Claude CLI falló: {r.stderr[-500:] or r.stdout[-500:]}")
     d = json.loads(r.stdout)

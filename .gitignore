@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 data/fichas/EVAL-*.json
 .env
+data/fichas/NUEVO-*.json

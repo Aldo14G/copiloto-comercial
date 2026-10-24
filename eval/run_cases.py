@@ -31,7 +31,8 @@ def correr(c):
             "skus_inventados": len([s for s in crudos if not catalog.producto(s)]),
             "skus_inventados_en_cotizacion": len(inventados_en_cotizacion),
             "alternativa": (salida.get("alternativa") or {}).get("skus"),
-            "motivos_no_verificado": [h["motivo_no_verificado"] for h in f["hechos"] if not h["verificado"]],
+            "hechos_no_verificados": [{k: h.get(k) for k in ("clave", "valor", "cita", "motivo_no_verificado")}
+                                      for h in f["hechos"] if not h["verificado"]],
             "hechos": len(f["hechos"]), "hechos_sin_cita": sum(not h["verificado"] for h in f["hechos"]),
             "preguntas": len(f["preguntas_pendientes"]), "candidatos": [x["sku"] for x in f["candidatos"]],
             "escalamientos": sorted(detectados), "posibles": posibles, "esperados": sorted(esperados),

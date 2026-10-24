@@ -1,0 +1,128 @@
+{
+  "case_id": "CASO-01",
+  "empresa": "Clínica Dental Sonrisa Norte",
+  "industria": "Salud",
+  "empleados": 25,
+  "catalogo": "14a5451ca84f",
+  "creado": "2026-10-24T15:24:58",
+  "actualizado": "2026-10-24T15:25:34",
+  "transcript": [
+    {
+      "rol": "cliente",
+      "texto": "Usamos correos de Gmail personales y el mes pasado una recepcionista abrió un archivo y se cifraron las computadoras. Queremos algo más seguro.",
+      "ts": "2026-10-24T15:25:34"
+    }
+  ],
+  "hechos": [
+    {
+      "clave": "correo_actual",
+      "valor": "Gmail personales",
+      "cita": "Usamos correos de Gmail personales",
+      "verificado": true
+    },
+    {
+      "clave": "incidente_seguridad",
+      "valor": "Ransomware: computadoras cifradas el mes pasado por archivo abierto por recepcionista",
+      "cita": "el mes pasado una recepcionista abrió un archivo y se cifraron las computadoras",
+      "verificado": true
+    },
+    {
+      "clave": "usuarios_m365",
+      "valor": "25 (empleados de la clínica, por confirmar)",
+      "cita": "Clínica Dental Sonrisa Norte · Salud · 25 empleados",
+      "verificado": false
+    },
+    {
+      "clave": "sector",
+      "valor": "Salud (clínica dental)",
+      "cita": "Clínica Dental Sonrisa Norte · Salud",
+      "verificado": false
+    }
+  ],
+  "servicios_existentes": [],
+  "candidatos": [
+    {
+      "sku": "SIM-M365-03",
+      "cantidad": 25,
+      "justificacion": "Correo con su propio dominio y seguridad avanzada contra archivos infectados y control de equipos.",
+      "hecho_cantidad": "usuarios_m365"
+    },
+    {
+      "sku": "SIM-M365-06",
+      "cantidad": null,
+      "justificacion": "Pasar los correos de Gmail al nuevo correo sin perder historial, calendarios ni contactos.",
+      "hecho_cantidad": null
+    },
+    {
+      "sku": "SIM-BK-02",
+      "cantidad": 25,
+      "justificacion": "Respaldo diario del correo y archivos para recuperarlos si algo se borra o se cifra.",
+      "hecho_cantidad": "usuarios_m365"
+    },
+    {
+      "sku": "SIM-BK-04",
+      "cantidad": null,
+      "justificacion": "Respaldo de las computadoras de la clínica tras haberse cifrado.",
+      "hecho_cantidad": "equipos"
+    },
+    {
+      "sku": "SIM-BK-01",
+      "cantidad": null,
+      "justificacion": "Respaldos que el ransomware no pueda borrar ni cifrar; depende de dónde guardan hoy la información (expedientes, radiografías).",
+      "hecho_cantidad": "tb_respaldo"
+    },
+    {
+      "sku": "SIM-M365-07",
+      "cantidad": 25,
+      "justificacion": "Mesa de ayuda para altas, contraseñas y permisos si no tienen área de sistemas.",
+      "hecho_cantidad": "usuarios_m365"
+    }
+  ],
+  "preguntas_pendientes": [
+    {
+      "pregunta": "¿Cuántas personas necesitarían correo y cuántas computadoras hay en la clínica? ¿Alguien usa su computadora personal para trabajar?",
+      "motivo": "Define cantidades de licencias M365, buzones y respaldo de equipos.",
+      "prioridad": 1
+    },
+    {
+      "pregunta": "¿Dónde están hoy los expedientes y radiografías de pacientes (servidor, computadoras, nube) y qué cantidad de información es (TB)? ¿Tienen respaldo y se recuperó lo cifrado?",
+      "motivo": "Decide si aplica backup inmutable (BK-01) y su tamaño; confirma la situación tras el ataque.",
+      "prioridad": 2
+    },
+    {
+      "pregunta": "¿Cuántos buzones de Gmail se migrarían y cuánto historial de correo quieren conservar?",
+      "motivo": "Cantidad para migración de correo (mínimo 5 buzones).",
+      "prioridad": 3
+    },
+    {
+      "pregunta": "¿Quién atiende hoy los temas de computadoras y cuentas? ¿Manejan datos de pacientes con alguna obligación de resguardo o requisito regulatorio?",
+      "motivo": "Decide soporte administrado (M365-07) y si aplica escalamiento ESC-04 por datos de salud.",
+      "prioridad": 4
+    }
+  ],
+  "escalamientos": [
+    {
+      "id": "ESC-04",
+      "estado": "posible",
+      "evidencia": "Clínica del sector salud que maneja datos de pacientes (datos de salud); confirmar requisitos regulatorios y qué datos se almacenan."
+    }
+  ],
+  "contradicciones": [],
+  "guion_vendedor": "Lamento lo del incidente del mes pasado; es más común de lo que parece y tiene solución. Lo que vemos es dar a su equipo correo profesional con su propio dominio y protección contra archivos peligrosos, además de respaldos que un ataque no pueda cifrar. Para dimensionarlo bien: ¿cuántas personas y computadoras tienen en la clínica y dónde guardan hoy los expedientes y radiografías de los pacientes?",
+  "resumen_necesidad": "La clínica usa correos Gmail personales y sufrió un ataque que cifró sus computadoras tras abrir un archivo. Quieren correo profesional y mayor seguridad.",
+  "tipo_caso": "estándar",
+  "alertas_validacion": [
+    "Hecho sin cita textual verificable: usuarios_m365=25 (empleados de la clínica, por confirmar)",
+    "Hecho sin cita textual verificable: sector=Salud (clínica dental)"
+  ],
+  "metricas": [
+    {
+      "tokens_in": 55720,
+      "tokens_out": 1676,
+      "costo_usd": 0.022335800000000003,
+      "segundos": 22.1,
+      "turno": 1
+    }
+  ],
+  "plazo": 12
+}

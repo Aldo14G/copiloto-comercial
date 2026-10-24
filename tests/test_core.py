@@ -115,6 +115,16 @@ class TestValidacionHechos(unittest.TestCase):
     def test_cita_inexistente(self):
         self.assertIn("no encontrada", self.m(clave="x", valor="5", cita="tenemos 5 servidores"))
 
+    def test_numero_en_palabras(self):
+        t = claude_engine._norm("Nuestro ERP corre en dos servidores en un cuarto de la planta")
+        self.assertIsNone(claude_engine._motivo_hecho({"clave": "servidores", "valor": "2",
+                                                       "cita": "corre en dos servidores"}, t))
+
+    def test_cita_casi_literal_se_acepta_y_parafrasis_no(self):
+        t = claude_engine._norm("Tenemos 45 sucursales y recibimos cientos de WhatsApps al día preguntando horarios")
+        self.assertTrue(claude_engine._cita_en_texto("tenemos 45 sucursales y recibimos cientos de WhatsApp al día", t))
+        self.assertFalse(claude_engine._cita_en_texto("el cliente opera cuarenta y cinco restaurantes", t))
+
     def test_inferencia_no_se_usa(self):
         self.assertEqual(self.m(clave="x", valor="30", cita="para los 30", origen="inferencia"), "inferencia de Claude")
 

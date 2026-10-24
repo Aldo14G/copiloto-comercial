@@ -8,9 +8,14 @@ DATA = Path(__file__).resolve().parent.parent / "data"
 CATALOG_PATH = DATA / "catalogo.json"
 
 
-@lru_cache(maxsize=1)
 def load():
-    raw = CATALOG_PATH.read_bytes()
+    stat = CATALOG_PATH.stat()
+    return _load(CATALOG_PATH, stat.st_mtime_ns, stat.st_size)
+
+
+@lru_cache(maxsize=1)
+def _load(path, mtime_ns, size):
+    raw = path.read_bytes()
     cat = json.loads(raw)
     cat["_sha256"] = hashlib.sha256(raw).hexdigest()[:12]
     cat["_por_sku"] = {p["sku"]: p for p in cat["productos"]}
@@ -31,16 +36,11 @@ def texto_para_claude():
     out = ["## Familias"]
     for f in cat["familias"]:
         out.append(f"- {f['id']} {f['nombre']}: {f['problemas_que_resuelve']}")
-    out.append("\n## Productos (sku | nombre | tipo | unidad | mensual | único | min-max | requiere alguno de | señal | preguntas | arquitecto si)")
-    for p in cat["productos"]:
-        out.append(" | ".join(str(x) for x in [
-            p["sku"], p["nombre"], p["tipo"], p["unidad_cobro"],
-            p["precio_mensual_mxn"], p["cargo_unico_mxn"],
-            f"{p['cantidad_minima']}-{p['cantidad_maxima']}",
-            ",".join(p["requiere_alguno_de"]) or "-",
-            p["senal_del_cliente"], " ".join(p["preguntas_clave"]),
-            p["cuando_entra_arquitecto"] or "-",
-        ]) + f" | desc: {p['descripcion']}")
+    # Esquema una sola vez: conserva SLA, plazos y recomendaciones sin repetir claves por SKU.
+    campos = list(cat["productos"][0])
+    out.append("\n## Productos: cada fila sigue este esquema JSON\n" + json.dumps(campos, ensure_ascii=False))
+    out.extend(json.dumps([p[k] for k in campos], ensure_ascii=False, separators=(",", ":"))
+               for p in cat["productos"])
     out.append("\n## Paquetes")
     for k in cat["paquetes"]:
         out.append(f"- {k['id']} {k['nombre']} ({k['descuento_pct']}%): {','.join(k['productos'])}. Para: {k['para_quien']}")

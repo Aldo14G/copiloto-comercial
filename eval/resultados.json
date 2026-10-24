@@ -1,13 +1,15 @@
 {
   "resumen": {
     "casos": 10,
+    "alcance": "Solo el primer mensaje de cada caso; no evalúa conversaciones completas ni exactitud de propuestas finales.",
     "skus_inventados_que_llegaron_al_cotizador": 0,
     "skus_inventados_por_claude_filtrados": 0,
-    "hechos_sin_cita_filtrados": 7,
-    "hechos_totales": 33,
+    "hechos_sin_cita_filtrados": 6,
+    "hechos_totales": 30,
     "escalamientos_explicitos_detectados": "4/4",
     "casos_con_escalamiento": 4,
-    "latencia_media_s": 39.5
+    "casos_con_alternativa": 1,
+    "latencia_media_s": 42.8
   },
   "casos": [
     {
@@ -15,6 +17,16 @@
       "etiqueta": "estándar",
       "tipo_claude": "estándar",
       "skus_inventados": 0,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [
+        {
+          "clave": "usuarios_m365",
+          "valor": "25",
+          "cita": "25 empleados (dato de ficha; el cliente aún no confirma cuántos necesitan correo)",
+          "motivo_no_verificado": "inferencia de Claude"
+        }
+      ],
       "hechos": 3,
       "hechos_sin_cita": 1,
       "preguntas": 4,
@@ -22,7 +34,6 @@
         "SIM-M365-03",
         "SIM-BK-02",
         "SIM-M365-06",
-        "SIM-M365-07",
         "SIM-BK-04"
       ],
       "escalamientos": [],
@@ -34,47 +45,53 @@
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55479,
-      "tokens_out": 2409,
-      "costo_usd": 0.1479638,
-      "segundos": 49.1
+      "tokens_in": 56035,
+      "tokens_out": 1201,
+      "costo_usd": 0.1821232,
+      "segundos": 41.4
     },
     {
       "caso": "CASO-02",
       "etiqueta": "mixto",
       "tipo_claude": "estándar",
       "skus_inventados": 0,
-      "hechos": 4,
-      "hechos_sin_cita": 1,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": [
+        "SIM-DC-04"
+      ],
+      "hechos_no_verificados": [],
+      "hechos": 2,
+      "hechos_sin_cita": 0,
       "preguntas": 4,
       "candidatos": [
-        "SIM-DC-01",
-        "SIM-DC-08",
-        "SIM-BK-01"
+        "SIM-DC-01"
       ],
       "escalamientos": [],
       "posibles": [],
       "esperados": [],
       "esperados_detectados": true,
       "estados": [
-        "faltan_datos"
+        "faltan_datos",
+        "borrador_calculable"
       ],
-      "tokens_in": 55467,
-      "tokens_out": 1362,
-      "costo_usd": 0.13749260000000002,
-      "segundos": 44.5
+      "tokens_in": 56023,
+      "tokens_out": 1134,
+      "costo_usd": 0.1814052,
+      "segundos": 41.7
     },
     {
       "caso": "CASO-03",
       "etiqueta": "mixto",
       "tipo_claude": "mixto",
       "skus_inventados": 0,
-      "hechos": 2,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [],
+      "hechos": 3,
       "hechos_sin_cita": 0,
       "preguntas": 4,
       "candidatos": [
-        "SIM-AWS-04",
-        "SIM-AWS-01"
+        "SIM-AWS-04"
       ],
       "escalamientos": [
         "ESC-04"
@@ -86,19 +103,21 @@
       "esperados_detectados": true,
       "estados": [
         "faltan_datos",
-        "borrador_calculable",
         "requiere_arquitecto"
       ],
-      "tokens_in": 55464,
-      "tokens_out": 1109,
-      "costo_usd": 0.1349623,
-      "segundos": 44.5
+      "tokens_in": 56020,
+      "tokens_out": 886,
+      "costo_usd": 0.1789132,
+      "segundos": 41.6
     },
     {
       "caso": "CASO-04",
       "etiqueta": "a la medida",
-      "tipo_claude": "por definir",
+      "tipo_claude": "mixto",
       "skus_inventados": 0,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [],
       "hechos": 2,
       "hechos_sin_cita": 0,
       "preguntas": 4,
@@ -116,19 +135,22 @@
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55460,
-      "tokens_out": 1949,
-      "costo_usd": 0.14336190000000001,
-      "segundos": 44.6
+      "tokens_in": 56016,
+      "tokens_out": 1937,
+      "costo_usd": 0.1894072,
+      "segundos": 46.8
     },
     {
       "caso": "CASO-05",
       "etiqueta": "estándar",
       "tipo_claude": "estándar",
       "skus_inventados": 0,
-      "hechos": 5,
-      "hechos_sin_cita": 1,
-      "preguntas": 4,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [],
+      "hechos": 3,
+      "hechos_sin_cita": 0,
+      "preguntas": 3,
       "candidatos": [
         "SIM-IA-01"
       ],
@@ -142,17 +164,27 @@
         "faltan_datos",
         "borrador_calculable"
       ],
-      "tokens_in": 55463,
-      "tokens_out": 1658,
-      "costo_usd": 0.1404522,
-      "segundos": 44.6
+      "tokens_in": 56019,
+      "tokens_out": 954,
+      "costo_usd": 0.1795892,
+      "segundos": 40.9
     },
     {
       "caso": "CASO-06",
       "etiqueta": "a la medida",
-      "tipo_claude": "a la medida",
+      "tipo_claude": "mixto",
       "skus_inventados": 0,
-      "hechos": 4,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [
+        {
+          "clave": "usuarios_totales",
+          "valor": "900",
+          "cita": "Ficha del cliente: 900 empleados",
+          "motivo_no_verificado": "inferencia de Claude"
+        }
+      ],
+      "hechos": 5,
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
@@ -164,9 +196,7 @@
       ],
       "posibles": [
         "ESC-04",
-        "ESC-05",
-        "ESC-06",
-        "ESC-07"
+        "ESC-05"
       ],
       "esperados": [
         "ESC-08"
@@ -176,18 +206,28 @@
         "faltan_datos",
         "requiere_arquitecto"
       ],
-      "tokens_in": 55696,
-      "tokens_out": 1667,
-      "costo_usd": 0.022243400000000003,
-      "segundos": 41.1
+      "tokens_in": 56011,
+      "tokens_out": 1874,
+      "costo_usd": 0.1887572,
+      "segundos": 44.3
     },
     {
       "caso": "CASO-07",
       "etiqueta": "estándar",
       "tipo_claude": "estándar",
       "skus_inventados": 0,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [
+        {
+          "clave": "empleados",
+          "valor": "12",
+          "cita": "12 empleados (ficha del cliente)",
+          "motivo_no_verificado": "cita no encontrada en la conversación"
+        }
+      ],
       "hechos": 2,
-      "hechos_sin_cita": 0,
+      "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
         "SIM-BK-01",
@@ -200,22 +240,32 @@
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55705,
-      "tokens_out": 1102,
-      "costo_usd": 0.0165943,
-      "segundos": 27.9
+      "tokens_in": 56020,
+      "tokens_out": 891,
+      "costo_usd": 0.17896320000000002,
+      "segundos": 39.7
     },
     {
       "caso": "CASO-08",
       "etiqueta": "a la medida",
       "tipo_claude": "mixto",
       "skus_inventados": 0,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [
+        {
+          "clave": "empleados_empresa",
+          "valor": "2500",
+          "cita": "AutoPartes Regio · Automotriz · 2500 empleados",
+          "motivo_no_verificado": "cita no encontrada en la conversación"
+        }
+      ],
       "hechos": 4,
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
-        "SIM-DC-07",
         "SIM-AZ-06",
+        "SIM-DC-07",
         "SIM-IA-02"
       ],
       "escalamientos": [
@@ -223,7 +273,8 @@
         "ESC-06"
       ],
       "posibles": [
-        "ESC-07"
+        "ESC-07",
+        "ESC-09"
       ],
       "esperados": [
         "ESC-06"
@@ -233,16 +284,26 @@
         "faltan_datos",
         "requiere_arquitecto"
       ],
-      "tokens_in": 55726,
-      "tokens_out": 2203,
-      "costo_usd": 0.027606400000000003,
-      "segundos": 35.3
+      "tokens_in": 56041,
+      "tokens_out": 2131,
+      "costo_usd": 0.1914472,
+      "segundos": 45.6
     },
     {
       "caso": "CASO-09",
       "etiqueta": "estándar",
       "tipo_claude": "estándar",
       "skus_inventados": 0,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [
+        {
+          "clave": "empleados_totales",
+          "valor": "30",
+          "cita": "Agencia Brava · Marketing · 30 empleados",
+          "motivo_no_verificado": "cita no encontrada en la conversación"
+        }
+      ],
       "hechos": 3,
       "hechos_sin_cita": 1,
       "preguntas": 4,
@@ -256,17 +317,27 @@
       "estados": [
         "faltan_datos"
       ],
-      "tokens_in": 55694,
-      "tokens_out": 1518,
-      "costo_usd": 0.0207532,
-      "segundos": 32.6
+      "tokens_in": 56009,
+      "tokens_out": 1419,
+      "costo_usd": 0.18419919999999998,
+      "segundos": 41.8
     },
     {
       "caso": "CASO-10",
       "etiqueta": "a la medida",
       "tipo_claude": "a la medida",
       "skus_inventados": 0,
-      "hechos": 4,
+      "skus_inventados_en_cotizacion": 0,
+      "alternativa": null,
+      "hechos_no_verificados": [
+        {
+          "clave": "empleados",
+          "valor": "400",
+          "cita": "Hospital San Rafael · Salud · 400 empleados",
+          "motivo_no_verificado": "cita no encontrada en la conversación"
+        }
+      ],
+      "hechos": 3,
       "hechos_sin_cita": 1,
       "preguntas": 4,
       "candidatos": [
@@ -276,7 +347,9 @@
         "ESC-01",
         "ESC-04"
       ],
-      "posibles": [],
+      "posibles": [
+        "ESC-05"
+      ],
       "esperados": [
         "ESC-04"
       ],
@@ -285,10 +358,10 @@
         "faltan_datos",
         "requiere_arquitecto"
       ],
-      "tokens_in": 55702,
-      "tokens_out": 1296,
-      "costo_usd": 0.018534000000000002,
-      "segundos": 30.7
+      "tokens_in": 56017,
+      "tokens_out": 1687,
+      "costo_usd": 0.1869112,
+      "segundos": 44.3
     }
   ]
 }

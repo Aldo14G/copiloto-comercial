@@ -27,11 +27,36 @@ def _num(v):
 
 
 def cotizar(candidatos, existentes=(), plazo=12, consumo=None, conversaciones_mes=None):
-    """candidatos: [{sku, cantidad}]; existentes: SKUs que el cliente ya tiene (con evidencia).
-    consumo: {"AWS": mxn_mes, ...}. Devuelve dict con líneas, bloqueos, escalamientos y totales."""
+    """candidatos: [{sku, cantidad, depende_de_diseno?}]; existentes: SKUs que el cliente ya tiene (con evidencia).
+    consumo: {"AWS": mxn_mes, ...}. Devuelve dict con líneas, bloqueos, escalamientos y totales.
+    Un candidato con depende_de_diseno no se suma: queda en "pendiente_diseno" (cierre parcial, D08)."""
     consumo = consumo or {}
     lineas, bloqueos, avisos, escal = [], [], [], {}
-    a_medida = []
+    a_medida, pendiente_diseno = [], []
+    for c in candidatos:
+        p = catalog.producto(c["sku"])
+        if c.get("depende_de_diseno") and p and p["tipo"] != "a la medida":
+            pendiente_diseno.append({"sku": c["sku"], "nombre": p["nombre"], "cantidad": c.get("cantidad"),
+                                     "motivo": "Su viabilidad o dimensionamiento depende del diseño del arquitecto"})
+    # Cascada: si un componente solo tiene satisfecha su dependencia con algo sujeto a diseño (o a la medida),
+    # tampoco es separable aunque tenga precio de catálogo.
+    while True:
+        bloqueados = {x["sku"] for x in pendiente_diseno} | {
+            c["sku"] for c in candidatos if (catalog.producto(c["sku"]) or {}).get("tipo") == "a la medida"}
+        restantes = {c["sku"] for c in candidatos} - bloqueados
+        nuevos = []
+        for c in candidatos:
+            p = catalog.producto(c["sku"])
+            if not p or c["sku"] in bloqueados or not p["requiere_alguno_de"]:
+                continue
+            req = set(p["requiere_alguno_de"])
+            if not req & (restantes | set(existentes)) and req & bloqueados:
+                nuevos.append({"sku": c["sku"], "nombre": p["nombre"], "cantidad": c.get("cantidad"),
+                               "motivo": f"Depende de {', '.join(sorted(req & bloqueados))}, sujeto a diseño"})
+        if not nuevos:
+            break
+        pendiente_diseno += nuevos
+    candidatos = [c for c in candidatos if c["sku"] not in {x["sku"] for x in pendiente_diseno}]
     skus = [c["sku"] for c in candidatos]
     disponibles = set(skus) | set(existentes)
     incompleto = False
@@ -148,8 +173,12 @@ def cotizar(candidatos, existentes=(), plazo=12, consumo=None, conversaciones_me
     if requiere_autorizacion:
         avisos.append("Hay descuento adicional sobre el 10% que requiere autorización del gerente (no aplicado).")
 
+    parcial = bool(pendiente_diseno or a_medida)
+    if parcial:
+        avisos.append("Subtotal parcial: no incluye componentes a la medida ni sujetos a diseño del arquitecto.")
     return {
-        "plazo": plazo, "lineas": lineas, "a_medida": a_medida, "paquetes": [k["id"] for k in paquetes],
+        "plazo": plazo, "lineas": lineas, "a_medida": a_medida, "pendiente_diseno": pendiente_diseno,
+        "paquetes": [k["id"] for k in paquetes], "parcial": parcial,
         "bloqueos": bloqueos, "avisos": avisos, "escalamientos": escal, "incompleto": incompleto or bool(bloqueos),
         "requiere_autorizacion": requiere_autorizacion,
         "totales": {"mensual": mensual, "mensual_iva": round(mensual * (1 + IVA), 2),

@@ -27,26 +27,31 @@ Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional."""
 FORMATO = """Devuelve la ficha COMPLETA actualizada con este formato JSON:
 {
  "resumen_necesidad": "1-2 frases en lenguaje de negocio",
- "hechos": [{"clave": "snake_case (usa: usuarios_m365, equipos, tb_respaldo, servidores, consumo_aws_mxn, consumo_azure_mxn, consumo_oci_mxn, conversaciones_mes, oracle_tb, licencia_m365_actual, anos_retencion, rto_horas, rpo_minutos u otra)", "valor": "...", "cita": "fragmento textual del cliente"}],
+ "hechos": [{"clave": "snake_case (usa: usuarios_m365, equipos, tb_respaldo, servidores, consumo_aws_mxn, consumo_azure_mxn, consumo_oci_mxn, conversaciones_mes, oracle_tb, licencia_m365_actual, anos_retencion, rto_horas, rpo_minutos u otra)", "valor": "...", "cita": "fragmento textual del cliente", "origen": "cliente|inferencia"}],
  "servicios_existentes": [{"sku": "SKU del catálogo que el cliente YA tiene", "cita": "..."}],
- "candidatos": [{"sku": "...", "cantidad": numero o null, "justificacion": "por qué, en lenguaje del cliente", "hecho_cantidad": "clave del hecho que sustenta la cantidad o null"}],
+ "candidatos": [{"sku": "...", "cantidad": numero o null, "justificacion": "por qué, en lenguaje del cliente", "hecho_cantidad": "clave del hecho que sustenta la cantidad o null", "depende_de_diseno": true si su viabilidad, dimensionamiento o dependencias las decide un arquitecto}],
+ "alternativa": null o {"skus": ["..."], "resumen": "opción distinta y viable", "beneficios": "...", "limites": "...", "cuando_conviene": "..."},
  "preguntas_pendientes": [{"pregunta": "...", "motivo": "qué desbloquea", "prioridad": 1}],
  "escalamientos": [{"id": "ESC-xx", "estado": "confirmado|posible", "evidencia": "..."}],
  "contradicciones": ["..."],
  "guion_vendedor": "Qué decir AHORA al cliente: 2-4 frases consultivas, sin precios, terminando con la pregunta más importante.",
  "tipo_caso": "estándar|mixto|a la medida|por definir"
 }
-Máximo 4 preguntas pendientes, ordenadas por prioridad."""
+Máximo 4 preguntas pendientes, ordenadas por prioridad.
+"candidatos" es la recomendación principal. Incluye "alternativa" solo si existe otra opción viable con los hechos conocidos que el cliente deba comparar; si falta información decisiva para elegir, déjala en null y pregúntala.
+Un hecho de "origen": "inferencia" es una deducción tuya: no lo uses para cantidades."""
 
 
-def _prompt(ficha, mensaje):
+def _prompt(ficha, mensaje, rol="cliente"):
     estado = {k: ficha.get(k) for k in ("resumen_necesidad", "hechos", "servicios_existentes", "candidatos",
-                                         "preguntas_pendientes", "escalamientos", "tipo_caso")}
+                                         "alternativa", "preguntas_pendientes", "escalamientos", "tipo_caso")}
     conv = "\n".join(f"[{t['rol']}] {t['texto']}" for t in ficha["transcript"][-12:])
     return (f"# Catálogo (datos simulados)\n{catalog.texto_para_claude()}\n\n"
             f"# Cliente\n{ficha['empresa']} · {ficha['industria']} · {ficha['empleados']} empleados\n\n"
             f"# Ficha actual\n{json.dumps(estado, ensure_ascii=False)}\n\n"
-            f"# Conversación hasta ahora\n{conv}\n\n# Nuevo mensaje\n[cliente] {mensaje}\n\n{FORMATO}")
+            f"# Conversación hasta ahora\n{conv}\n\n# Nuevo mensaje\n[{rol}] {mensaje}\n\n{FORMATO}"
+            + ("\nEste mensaje es una NOTA DEL VENDEDOR: úsala como contexto, pero no es cita del cliente."
+               if rol != "cliente" else ""))
 
 
 def _call_cli(prompt):
@@ -88,6 +93,26 @@ def _norm(s):
     return re.sub(r"\W+", " ", (s or "").lower()).strip()
 
 
+def _numeros(s):
+    return {n.replace(",", "") for n in re.findall(r"\d[\d,]*(?:\.\d+)?", str(s or ""))}
+
+
+def _motivo_hecho(h, texto):
+    """None si el hecho es utilizable; si no, el motivo. La cita debe existir textualmente y,
+    si el valor trae cifras, esas cifras deben aparecer en la cita (evita atribuir números ajenos).
+    No prueba la interpretación semántica: eso lo revisa el vendedor al confirmar."""
+    if h.get("origen") == "inferencia":
+        return "inferencia de Claude"
+    if not h.get("cita"):
+        return "sin cita"
+    if _norm(h["cita"]) not in texto:
+        return "cita no encontrada en la conversación"
+    faltan = _numeros(h.get("valor")) - _numeros(h["cita"])
+    if faltan:
+        return f"la cita no contiene {', '.join(sorted(faltan))}"
+    return None
+
+
 def validate(salida, transcript_texto):
     """Filtra la salida de Claude contra el catálogo y la conversación real."""
     cat = catalog.load()
@@ -97,9 +122,10 @@ def validate(salida, transcript_texto):
 
     hechos = []
     for h in salida.get("hechos", []):
-        h["verificado"] = bool(h.get("cita")) and _norm(h["cita"]) in texto
+        h["motivo_no_verificado"] = _motivo_hecho(h, texto)
+        h["verificado"] = h["motivo_no_verificado"] is None
         if not h["verificado"]:
-            alertas.append(f"Hecho sin cita textual verificable: {h.get('clave')}={h.get('valor')}")
+            alertas.append(f"Hecho no verificado ({h['motivo_no_verificado']}): {h.get('clave')}={h.get('valor')}")
         hechos.append(h)
 
     def _sku_ok(lista, etiqueta):
@@ -123,7 +149,16 @@ def validate(salida, transcript_texto):
         else:
             alertas.append(f"Regla de escalamiento inexistente descartada ({e.get('id')})")
 
-    salida.update(hechos=hechos, servicios_existentes=existentes, escalamientos=escal,
+    alt = salida.get("alternativa")
+    if isinstance(alt, dict):
+        invalidos = [s for s in alt.get("skus", []) if not catalog.producto(s)]
+        if invalidos or not alt.get("skus"):
+            alertas.append(f"Alternativa descartada: SKUs inexistentes o vacíos ({', '.join(invalidos) or '-'})")
+            alt = None
+    else:
+        alt = None
+
+    salida.update(hechos=hechos, servicios_existentes=existentes, escalamientos=escal, alternativa=alt,
                   candidatos=_sku_ok(salida.get("candidatos", []), "Candidato"))
     salida["alertas_validacion"] = alertas
     return salida

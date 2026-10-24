@@ -4,7 +4,7 @@ import os
 import streamlit as st
 
 from copiloto import catalog, claude_engine, ficha as F
-from copiloto.export import propuesta_md
+from copiloto.export import expediente_md, propuesta_md
 
 st.set_page_config(page_title="Copiloto Comercial", page_icon="🧭", layout="wide")
 cat = catalog.load()
@@ -100,7 +100,7 @@ with col_ficha:
     with tab_hechos:
         st.markdown("**Hechos confirmados por el cliente** (cada uno con su cita textual)")
         for h in f["hechos"]:
-            icon = "✅" if h.get("verificado") else "⚠️"
+            icon = "✅" if h.get("verificado") else f"⚠️ ({h.get('motivo_no_verificado') or 'no verificado'})"
             st.markdown(f"{icon} `{h['clave']}` = **{h['valor']}**  \n<span style='color:gray;font-size:0.85em'>“{h.get('cita', '')}”</span>",
                         unsafe_allow_html=True)
         if f["servicios_existentes"]:
@@ -119,6 +119,29 @@ with col_ficha:
             st.caption("Sin datos aún.")
         else:
             st.caption("Calculado por código desde el catálogo. Claude no genera precios.")
+            alt = f.get("alternativa")
+            if alt:
+                with st.expander(f"Alternativa: {', '.join(alt['skus'])}"):
+                    st.markdown(f"{alt.get('resumen', '')}\n\n**Beneficios:** {alt.get('beneficios', '')}\n\n"
+                                f"**Límites:** {alt.get('limites', '')}\n\n**Cuándo conviene:** {alt.get('cuando_conviene', '')}")
+            st.markdown("**1. Revisa y confirma la solución** (ajusta cantidades si hace falta)")
+            base = (f.get("confirmacion") or {}).get("seleccion") or f["candidatos"]
+            editada = st.data_editor(
+                [{"sku": c["sku"], "producto": catalog.producto(c["sku"])["nombre"], "cantidad": c.get("cantidad"),
+                  "depende_de_diseno": bool(c.get("depende_de_diseno"))} for c in base],
+                disabled=["sku", "producto"], num_rows="dynamic", hide_index=True, key=f"sel-{f['case_id']}-{f['revision']}")
+            estado_conf = F.estado_confirmacion(f)
+            st.caption({"sin_confirmar": "Sin confirmar", "vigente": "✅ Confirmada",
+                        "desactualizada": "⚠️ Confirmación desactualizada: cambiaron datos o plazo"}[estado_conf])
+            if st.button("Confirmar solución y cantidades", type="primary"):
+                try:
+                    F.confirmar(f, [r for r in editada if r.get("sku")])
+                    st.rerun()
+                except ValueError as e:
+                    st.error(str(e))
+            usar = estado_conf != "sin_confirmar"
+            q = F.cotizacion(f, usar_confirmacion=usar)
+            st.markdown(f"**2. {'Borrador' if q['puede_generar_borrador'] else 'Vista previa'} económico**")
             if q["lineas"]:
                 st.dataframe([{
                     "SKU": l["sku"], "Producto": l["nombre"], "Cant.": l["cantidad"], "Unidad": l["unidad"],
@@ -126,19 +149,27 @@ with col_ficha:
                     "Mensual neto": mxn(l["mensual_neto"]), "Cargo único": mxn(l["unico"]),
                     "Notas": "; ".join(l["notas"])} for l in q["lineas"]], hide_index=True, width="stretch")
             t = q["totales"]
+            etiqueta = "Subtotal parcial" if q["parcial"] else "Total"
             m1, m2, m3 = st.columns(3)
-            m1.metric("Mensual (sin IVA)", mxn(t["mensual"]))
-            m2.metric("Cargos únicos (sin IVA)", mxn(t["unico"]))
+            m1.metric(f"{etiqueta} mensual (sin IVA)", mxn(t["mensual"]))
+            m2.metric(f"{etiqueta} único (sin IVA)", mxn(t["unico"]))
             m3.metric(f"Contrato {q['plazo']} meses", mxn(t["contrato"]))
             st.caption(f"Con IVA: mensual {mxn(t['mensual_iva'])} · único {mxn(t['unico_iva'])}. Vigencia 30 días.")
+            for p in q["pendiente_diseno"]:
+                st.info(f"🏗️ {p['sku']} {p['nombre']}: {p['motivo']} (no incluido en el importe)")
             for b in q["bloqueos"]:
                 st.error(f"⛔ {b}")
             for a in q["avisos"]:
                 st.warning(a)
-            if q["incompleto"]:
-                st.warning("Total incompleto: hay datos faltantes o bloqueos. No enviar al cliente todavía.")
-            st.download_button("⬇️ Descargar borrador (Markdown)", propuesta_md(f, q),
-                               file_name=f"propuesta-{f['case_id']}.md", disabled=not q["lineas"])
+            st.markdown("**3. Entregables del caso**")
+            d1, d2 = st.columns(2)
+            d1.download_button("⬇️ Propuesta comercial", propuesta_md(f, q),
+                               file_name=f"propuesta-{f['case_id']}-r{f['revision']}.md",
+                               disabled=not q["puede_generar_borrador"])
+            d2.download_button("⬇️ Expediente interno", expediente_md(f, q),
+                               file_name=f"expediente-{f['case_id']}-r{f['revision']}.md")
+            if not q["puede_generar_borrador"]:
+                st.caption("La propuesta se habilita con la solución confirmada, vigente y sin bloqueos.")
 
     with tab_arq:
         if not q or not q["escalamientos"]:

@@ -9,3 +9,6 @@ outputs/
 *.tmp
 .env.*
 .DS_Store
+
+# Notas locales de sesión (no se publican)
+SESSION_HANDOFF.md

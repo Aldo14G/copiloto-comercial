@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from copiloto import catalog, claude_engine, ficha as F  # noqa: E402
 
-# Disparadores explícitos en el primer mensaje (revisión humana, ver CONTEXTO.md)
+# Disparadores explícitos en el primer mensaje (revisión humana; ver docs/EVALUACION.md)
 ESPERADOS = {"CASO-03": {"ESC-04"}, "CASO-06": {"ESC-08"}, "CASO-08": {"ESC-06"}, "CASO-10": {"ESC-04"}}
 
 

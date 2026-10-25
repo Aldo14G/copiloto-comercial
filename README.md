@@ -17,7 +17,6 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 - Resultados verificados: [VERIFICACION.md](VERIFICACION.md)
 - Guion de demo: [DEMO.md](DEMO.md)
-- Video (~2 min): incluido en el repo: `docs/copiloto-demo.mp4`.
 
 ## Cómo evita inventar información
 

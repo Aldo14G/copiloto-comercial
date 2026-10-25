@@ -6,6 +6,8 @@ Copiloto Comercial acompaña al vendedor de soluciones de TI *durante* la reuni�
 
 Proyecto desarrollado para el **Hackathon Claude** (ClaudeTec · Tec de Monterrey, 24 de octubre de 2026), reto *«Del primer contacto a la propuesta»*.
 
+**▶ Demo en línea: [copiloto-comercial-aldo.streamlit.app](https://copiloto-comercial-aldo.streamlit.app/)**: abre *Casos → Abrir ejemplo sintético* y sigue el [recorrido de demostración](docs/DEMO.md). La versión en línea no está conectada a Claude, así que el análisis en vivo de mensajes solo funciona en una instalación local. Los casos que se creen ahí son visibles para todos los visitantes y se borran cuando la app se reinicia.
+
 > Todos los productos, precios y condiciones provienen del **catálogo simulado** del hackathon. No son ofertas oficiales de ninguna empresa.
 
 ---

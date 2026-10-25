@@ -6,6 +6,19 @@
 
 > Datos SIMULADOS del catálogo del hackathon. No son productos ni precios oficiales.
 
+## Cómo correr la demo
+
+```bash
+python -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/streamlit run app.py   # Claude: ANTHROPIC_API_KEY en el entorno o Claude Code CLI; nunca en el repo
+.venv/bin/python -m unittest discover tests
+.venv/bin/python scripts/reporte_verificacion.py   # regenera VERIFICACION.md
+```
+
+- Resultados verificados: [VERIFICACION.md](VERIFICACION.md)
+- Guion de demo: [DEMO.md](DEMO.md)
+- Video (~2 min): se entrega por separado como `outputs/copiloto-demo.mp4`.
+
 ## Cómo evita inventar información
 
 | Riesgo | Control |

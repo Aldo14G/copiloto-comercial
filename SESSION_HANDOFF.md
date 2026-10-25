@@ -11,7 +11,7 @@ Leer primero `copiloto-comercial/REVISION-IMPLEMENTACION.md`, `README.md`, `PROD
 ## Estado comprobado
 
 - Implementación local integrada: Casos, Catálogo, Reunión, Alternativas, Cierre e Historial.
-- 74/74 pruebas pasan con proveedor simulado (incluye `tests/test_tercer_tramo.py`: cierre PDF/Word, recuperación y precios no inventados). Cobertura heredada de 45 SKUs y siete paquetes.
+- 80/80 pruebas pasan (ver VERIFICACION.md) con proveedor simulado (incluye `tests/test_tercer_tramo.py`: cierre PDF/Word, recuperación y precios no inventados). Cobertura heredada de 45 SKUs y siete paquetes.
 - Chrome verificó creación de caso, cierre mixto, cuatro descargas, teclado y ausencia de desbordamiento en los tamaños inspeccionados.
 - Cuatro documentos del ejemplo generados y todas sus páginas revisadas; los DOCX se renderizaron con Word porque no hay LibreOffice empaquetado.
 - `git diff --check` pasa. Catálogo y evaluación histórica de Opus conservados; no se hicieron nuevas llamadas pagadas a Claude.

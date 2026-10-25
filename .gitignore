@@ -3,3 +3,9 @@ __pycache__/
 data/fichas/EVAL-*.json
 .env
 data/fichas/NUEVO-*.json
+.venv/
+venv/
+outputs/
+*.tmp
+.env.*
+.DS_Store

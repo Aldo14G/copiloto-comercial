@@ -27,7 +27,7 @@ La revisión siguió Ponytail full y Thermo-Nuclear Code Quality Review. Se mant
 
 | Comprobación | Resultado |
 |---|---|
-| `python -B -m unittest discover tests` | **67/67**, corrida final 7.844 s. Proveedor simulado. |
+| `python -B -m unittest discover tests` | **74/74** (Streamlit 1.56 y 1.66), 7 de cierre en `tests/test_tercer_tramo.py`. Proveedor simulado, sin llamadas pagadas. |
 | Cobertura heredada del catálogo | 45 SKUs y siete paquetes; mínimos, dependencias, consumo, escalamientos y cierres mixtos. No acredita todas las combinaciones comerciales posibles. |
 | Nuevas regresiones e integración | Conservación ante fallos, respuesta incompleta, plazo y confirmación, redondeo, descuentos ambiguos, documentos y creación/recuperación de casos. |
 | `node tests/browser_smoke.cjs http://127.0.0.1:8524` | Chrome: creación de caso, ejemplo mixto, confirmación, cuatro descargas y navegación por teclado. Sin llamadas al proveedor. |

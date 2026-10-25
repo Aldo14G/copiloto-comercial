@@ -42,6 +42,7 @@ const assert = require('node:assert/strict');
     await page.setViewportSize({ width: 1440, height: 1024 });
     await vista('Alternativas', 'De la necesidad a una solución justificable');
     await page.getByRole('button', { name: 'Confirmar solución y cantidades', exact: true }).waitFor();
+    await page.getByRole('spinbutton', { name: 'Cantidad', exact: true }).nth(1).waitFor();
     assert.equal(await page.getByRole('spinbutton', { name: 'Cantidad', exact: true }).count(), 2);
     for (const input of await page.getByRole('spinbutton', { name: 'Cantidad', exact: true }).all()) {
       await input.fill('1');

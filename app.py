@@ -29,4 +29,6 @@ if f.get("synthetic"):
 {"Casos": views.casos, "Catálogo": views.catalogo, "Reunión": views.reunion,
  "Alternativas": views.alternativas, "Cierre": views.cierre, "Historial": views.historial}[vista](f)
 with st.container(key="pie"):
-    st.caption(f"La ficha continúa en propuesta y expediente · 45 productos / 7 familias · catálogo {catalog.load()['_sha256']}")
+    cat = catalog.load()
+    st.caption(f"La ficha continúa en propuesta y expediente · {len(cat['productos'])} productos / "
+               f"{len(cat['familias'])} familias · catálogo {cat['_sha256']}")

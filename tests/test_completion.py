@@ -155,7 +155,8 @@ class TestInterfaz(unittest.TestCase):
         self.vista("Alternativas")
         for campo in self.app.number_input:
             campo.set_value(1.0)
-        next(c for c in self.app.checkbox if c.label.startswith("Revisé")).check().run()
+        # Dentro de un formulario el navegador envía los valores solo al confirmar.
+        next(c for c in self.app.checkbox if c.label.startswith("Revisé")).check()
         self.boton("Confirmar solución y cantidades").click().run()
         self.assertFalse(self.app.exception)
         self.vista("Cierre")
@@ -167,7 +168,7 @@ class TestInterfaz(unittest.TestCase):
 
     def test_error_proveedor_conserva_texto_y_ficha(self):
         antes = deepcopy(self.app.session_state.ficha)
-        self.app.text_area[0].input("Tenemos diez usuarios").run()
+        self.app.text_area[0].input("Tenemos diez usuarios")
         self.boton("Incorporar a la ficha").click().run()
         self.assertFalse(self.app.exception)
         self.assertTrue(self.app.error)

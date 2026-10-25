@@ -8,6 +8,11 @@ from .demo import ejemplo
 from .export import archivos, propuesta_md, expediente_md
 
 
+CLAVES = {"rto_horas": "tiempo máximo sin servicio (horas)", "espacio_u": "espacio en rack (U)",
+          "tb_archivos_video": "archivos de video (TB)"}
+ESTADOS = {"sin_confirmar": "sin confirmar", "vigente": "vigente", "desactualizada": "desactualizada; vuelve a confirmar"}
+
+
 def rotulo(texto):
     st.html(f'<p class="rotulo">{escape(texto)}</p>')
 
@@ -72,7 +77,7 @@ def reunion(f):
         for h in f["hechos"]:
             estado = "Cita presente · revisar interpretación" if h.get("verificado") else h.get("motivo_no_verificado", "Sin verificar")
             st.html(f'<div class="dato"><mark>{escape(str(h["valor"]))}</mark>'
-                    f'<small>{escape(h["clave"].replace("_", " "))} · {escape(estado)}</small>'
+                    f'<small>{escape(CLAVES.get(h["clave"], h["clave"].replace("_", " ")))} · {escape(estado)}</small>'
                     f'<small>«{escape(h.get("cita", ""))}»</small></div>')
     with st.container(key="decision"):
         rotulo("Decisión abierta")
@@ -102,6 +107,8 @@ def reunion(f):
                 st.write(f["guion_vendedor"])
     with derecha, st.container(key="pendientes"):
         rotulo("Datos pendientes")
+        if not (f["preguntas_pendientes"] or f["contradicciones"] or f["candidatos"]):
+            st.caption("Sin pendientes todavía. Aparecerán al analizar el primer fragmento.")
         for p in f["preguntas_pendientes"]:
             st.markdown(f"**{p['pregunta']}**")
             st.caption(p.get("motivo", ""))
@@ -156,7 +163,7 @@ def alternativas(f):
             st.success("Selección guardada. El cierre comprobará si el importe puede calcularse.")
         except (ValueError, OSError) as error:
             st.error(str(error))
-    st.caption(f"Confirmación: {F.estado_confirmacion(f)}. Abre Cierre para preparar los entregables.")
+    st.caption(f"Confirmación: {ESTADOS[F.estado_confirmacion(f)]}. Abre Cierre para preparar los entregables.")
 
 
 def _dimensionamiento(f, seleccion, base):
@@ -184,7 +191,7 @@ def _dimensionamiento(f, seleccion, base):
 def cierre(f):
     st.header("Un caso, dos entregables vinculados")
     q = F.cotizacion(f, usar_confirmacion=bool(f.get("confirmacion")))
-    st.caption(f"Revisión {f['revision']} · catálogo {q['catalogo']} · confirmación {q['confirmacion']}")
+    st.caption(f"Revisión {f['revision']} · catálogo {q['catalogo']} · confirmación {ESTADOS[q['confirmacion']]}")
     if q["puede_generar_borrador"]:
         etiqueta = "Subtotal parcial" if q["parcial"] else "Total"
         mensual, unico = st.columns(2)
@@ -227,13 +234,14 @@ def cierre(f):
     if preparados and preparados[0] == clave:
         for nombre, datos in preparados[1].items():
             tipo = "application/pdf" if nombre.endswith(".pdf") else "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            st.download_button(f"Descargar {nombre}", datos, file_name=nombre, mime=tipo, on_click="ignore")
+            documento = "propuesta" if "-propuesta." in nombre else "expediente"
+            st.download_button(f"Descargar {documento} · {'PDF' if nombre.endswith('.pdf') else 'Word'}", datos, file_name=nombre, mime=tipo, on_click="ignore")
 
 
 def catalogo(f):
     cat = catalog.load()
     st.header("El catálogo completo, consultable")
-    st.caption("45 productos · 7 familias · 7 paquetes. Catálogo simulado para el hackathon; no es información comercial oficial de Alestra.")
+    st.caption(f"{len(cat['productos'])} productos · {len(cat['familias'])} familias · {len(cat['paquetes'])} paquetes. Catálogo simulado para el hackathon; no es información comercial oficial de Alestra.")
     familia = st.selectbox("Familia", ["Todas", *[x["id"] for x in cat["familias"]]])
     buscar = st.text_input("Buscar por SKU, producto o necesidad").casefold().strip()
     productos = [p for p in cat["productos"] if (familia == "Todas" or p["familia"] == familia)
@@ -254,7 +262,7 @@ def catalogo(f):
 def historial(f):
     st.header("La conversación y sus revisiones")
     for i, t in enumerate(f["transcript"], 1):
-        rotulo(f"{i:02d} / {t['rol']} / {t['ts']}")
+        rotulo(f"{i:02d} / {t['rol']} / {str(t.get('ts', '')).replace('T', ' ')}")
         st.write(t["texto"])
     if not f["transcript"]:
         st.write("Todavía no se han incorporado fragmentos.")
